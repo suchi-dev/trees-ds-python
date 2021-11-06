@@ -15,6 +15,32 @@ class Node:
 
         print("Value is not found in the tree")
 
+    def traverse_preorder(self):
+        print(self.data)
+
+        if self.left:
+            self.left.traverse_preorder()
+
+        if self.right:
+            self.right.traverse_preorder()
+
+    def traverse_inorder(self):
+        if self.left:
+            self.left.traverse_inorder()
+        print(self.data)
+
+        if self.right:
+            self.right.traverse_inorder()
+
+    def traverse_postorder(self):
+        if self.left:
+            self.left.traverse_postorder()
+
+        if self.right:
+            self.right.traverse_postorder()
+
+        print(self.data)
+
 
 class Tree:
     def __init__(self, root, name=''):
@@ -23,6 +49,16 @@ class Tree:
 
     def search(self, target):
         return self.root.search(target)
+
+    def traverse_preorder(self):
+        return self.root.traverse_preorder()
+
+    def traverse_inorder(self):
+        return self.root.traverse_inorder()
+
+
+    def traverse_postorder(self):
+        return self.root.traverse_postorder()
 
 
 
@@ -48,3 +84,12 @@ print(found.data)
 print("Using Tree class method")
 exists_in_tree = myTree.search(15)
 print(exists_in_tree.data)
+
+print("--------Pre order Traversal")
+myTree.root.traverse_preorder()
+
+print("-----------Inorder Traversal")
+myTree.root.traverse_inorder()
+
+print("------------Postorder Traversal")
+myTree.root.traverse_postorder()
