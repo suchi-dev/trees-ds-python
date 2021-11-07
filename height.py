@@ -24,8 +24,34 @@ class Node:
             else:
                 self.right.add_node(data)
 
+    def find_min(self):
+        if self.left:
+            return self.left.find_min()
+        return self.data
 
 
+    def delete(self, target):
+        if self.data == target:
+            # do the deletion here
+            # Case where both children exists for the target node to be deleted
+            if self.left and self.right:
+                # RTFM - Right Tree Find Minimum
+                min_value = self.right.find_min()
+                # min_value will replace the target value to be deleted
+                self.data = min_value
+                # delete the min value from the right side
+                self.right = self.right.delete(min_value)
+                return self
+            else:
+                # Case where either left or right child exists for the target node to be deleted
+                # or it is a leaf node having no children
+                return self.left or self.right
+
+        if self.right and target > self.data:
+            self.right = self.right.delete(target)
+        if self.left and target < self.data:
+            self.left = self.left.delete(target)
+        return self
 
     def traverse_inorder(self):
         if self.left:
@@ -68,6 +94,9 @@ class Tree:
     def add_node(self, data):
         self.root.add_node(data)
 
+    def delete(self, target):
+        self.root = self.root.delete(target)
+
 node = Node(50)
 node.left = Node(25)
 node.right = Node(75)
@@ -100,6 +129,24 @@ myNewTree.add_node(45)
 print("After adding a new node")
 myNewTree.traverse_inorder()
 
+delete_node = Node(50)
+delete_node.left = Node(25)
+delete_node.right = Node(75)
+delete_node.right.left = Node(67)
+delete_node.right.right = Node(100)
+delete_node.right.right.left = Node(80)
+delete_node.right.right.right = Node(120)
+delete_node.right.right.left.right = Node(92)
+myDeleteTree = Tree(delete_node, "Beautiful Tree")
+print("Inorder Traversal before deletion")
+myDeleteTree.traverse_inorder()
+myDeleteTree.delete(75)
+print("After deletion inorder traversal")
+myDeleteTree.traverse_inorder()
+print("Deleting root node")
+myDeleteTree.delete(50)
+print("After deletion of root node inorder traversal")
+myDeleteTree.traverse_inorder()
 
 
 
